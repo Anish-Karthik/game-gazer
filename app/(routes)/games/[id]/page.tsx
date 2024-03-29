@@ -4,7 +4,7 @@ import AddReview from "@/components/shared/AddReview"
 
 import "@/hooks/use-current-user"
 import { currentUser } from "@/lib/auth"
-import { GetGameDocument } from "@/lib/gql/graphql"
+import { GetGameDocument, GetUserRoleDocument } from "@/lib/gql/graphql"
 import { gqlClient } from "@/lib/service/client"
 
 import GameCard from "./_components/detailed-game-card"
@@ -13,20 +13,26 @@ import GetAllReviews from "./_components/get-all-reviews"
 const Game = async ({ params }: { params: { id: Number } }) => {
   const user = await currentUser()
   const gameId = Number(params.id)
-  const data = await gqlClient.request(GetGameDocument, {
-    gameId,
-  })
 
   if (!user) {
     redirect("/auth/login")
   }
+  const data = await gqlClient.request(GetGameDocument, {
+    gameId,
+  })
+
   if (!data || !data.Game_by_pk || !data.Game_by_pk.Reviews) {
     return <p>Game not found</p>
   }
+  const userRole = await gqlClient.request(GetUserRoleDocument, {
+    userId: user.id,
+  })
 
   return (
     <div className="flex flex-col gap-8">
       <GameCard
+        gameId={data.Game_by_pk.id}
+        isEditable={userRole.User_by_pk?.role === "ADMIN"}
         name={data.Game_by_pk.title}
         description={data.Game_by_pk.description!}
         image={data.Game_by_pk.image!}

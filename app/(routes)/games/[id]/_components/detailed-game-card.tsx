@@ -1,9 +1,13 @@
 import Image from "next/image"
-import { ActivityIcon } from "lucide-react"
+import Link from "next/link"
+import { ActivityIcon, Pencil, Trash, Trash2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+import DeleteGame from "./delete-game"
+
 const GameCard = ({
+  isEditable = false,
   name,
   description,
   image,
@@ -13,8 +17,10 @@ const GameCard = ({
   view = "horizontal",
   review: avgReview,
   totalReviews,
+  gameId,
 }: {
   name: string
+  isEditable?: boolean
   description: string
   image: string
   genre: string
@@ -23,9 +29,21 @@ const GameCard = ({
   view?: "vertical" | "horizontal"
   review: number
   totalReviews: number
+  gameId: number
 }) => {
   return (
-    <div className="h-full rounded-lg bg-gray-100 p-4">
+    <div className="relative h-full rounded-lg bg-gray-100 p-4">
+      {isEditable && (
+        <div className="absolute right-2 top-2 flex items-center gap-1">
+          <Link
+            href={`/games/${gameId}/edit`}
+            className="h-full w-full rounded-md p-1 text-black hover:bg-white/70"
+          >
+            <Pencil size={19} />
+          </Link>
+          <DeleteGame gameId={gameId} />
+        </div>
+      )}
       <div
         className={cn(
           "flex gap-2 max-sm:flex-col",
@@ -48,7 +66,7 @@ const GameCard = ({
             <p className="text-sm">{description}</p>
           </div>
           <div className="flex flex-col gap-3 font-semibold">
-            <p>Genre: ${genre}</p>
+            <p>Genre: {genre}</p>
             <p>
               Platforms:{" "}
               {platform.map((p, i) => (

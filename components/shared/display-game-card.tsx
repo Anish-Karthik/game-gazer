@@ -15,6 +15,7 @@ const DisplayGameCard = ({ gameId }: { gameId: number }) => {
   const game = data.Game_by_pk
   return (
     <GameCard
+      gameId={gameId}
       totalReviews={game.Reviews.length!}
       review={
         game.Reviews.reduce((acc, review) => acc + review.rating, 0) /
