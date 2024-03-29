@@ -9,12 +9,6 @@ query GetAllGames {
     genre
     platform
     averageRating
-    Reviews {
-      id
-      rating
-      reviewText
-      reviewDate
-    }
   }
 }
 
@@ -28,12 +22,10 @@ query GetGame($gameId: Int!) {
     publisher
     genre
     platform
+    image
     averageRating
     Reviews {
       id
-      rating
-      reviewText
-      reviewDate
     }
   }
 }
@@ -45,6 +37,7 @@ mutation CreateGame($input: Game_insert_input!) {
     description
     releaseDate
     developer
+    image
     publisher
     genre
     platform
@@ -60,6 +53,7 @@ mutation UpdateGame($gameId: Game_pk_columns_input!, $input: Game_set_input!) {
     releaseDate
     developer
     publisher
+    image
     genre
     platform
     averageRating

@@ -455,7 +455,8 @@ export type Game = {
   developer?: Maybe<Scalars["String"]["output"]>
   genre?: Maybe<Scalars["String"]["output"]>
   id: Scalars["Int"]["output"]
-  platform?: Maybe<Scalars["String"]["output"]>
+  image?: Maybe<Scalars["String"]["output"]>
+  platform: Array<Scalars["String"]["output"]>
   publisher?: Maybe<Scalars["String"]["output"]>
   releaseDate?: Maybe<Scalars["timestamp"]["output"]>
   title: Scalars["String"]["output"]
@@ -524,7 +525,8 @@ export type Game_Bool_Exp = {
   developer?: InputMaybe<String_Comparison_Exp>
   genre?: InputMaybe<String_Comparison_Exp>
   id?: InputMaybe<Int_Comparison_Exp>
-  platform?: InputMaybe<String_Comparison_Exp>
+  image?: InputMaybe<String_Comparison_Exp>
+  platform?: InputMaybe<String_Array_Comparison_Exp>
   publisher?: InputMaybe<String_Comparison_Exp>
   releaseDate?: InputMaybe<Timestamp_Comparison_Exp>
   title?: InputMaybe<String_Comparison_Exp>
@@ -549,7 +551,8 @@ export type Game_Insert_Input = {
   developer?: InputMaybe<Scalars["String"]["input"]>
   genre?: InputMaybe<Scalars["String"]["input"]>
   id?: InputMaybe<Scalars["Int"]["input"]>
-  platform?: InputMaybe<Scalars["String"]["input"]>
+  image?: InputMaybe<Scalars["String"]["input"]>
+  platform?: InputMaybe<Array<Scalars["String"]["input"]>>
   publisher?: InputMaybe<Scalars["String"]["input"]>
   releaseDate?: InputMaybe<Scalars["timestamp"]["input"]>
   title?: InputMaybe<Scalars["String"]["input"]>
@@ -562,7 +565,8 @@ export type Game_Max_Fields = {
   developer?: Maybe<Scalars["String"]["output"]>
   genre?: Maybe<Scalars["String"]["output"]>
   id?: Maybe<Scalars["Int"]["output"]>
-  platform?: Maybe<Scalars["String"]["output"]>
+  image?: Maybe<Scalars["String"]["output"]>
+  platform?: Maybe<Array<Scalars["String"]["output"]>>
   publisher?: Maybe<Scalars["String"]["output"]>
   releaseDate?: Maybe<Scalars["timestamp"]["output"]>
   title?: Maybe<Scalars["String"]["output"]>
@@ -575,7 +579,8 @@ export type Game_Min_Fields = {
   developer?: Maybe<Scalars["String"]["output"]>
   genre?: Maybe<Scalars["String"]["output"]>
   id?: Maybe<Scalars["Int"]["output"]>
-  platform?: Maybe<Scalars["String"]["output"]>
+  image?: Maybe<Scalars["String"]["output"]>
+  platform?: Maybe<Array<Scalars["String"]["output"]>>
   publisher?: Maybe<Scalars["String"]["output"]>
   releaseDate?: Maybe<Scalars["timestamp"]["output"]>
   title?: Maybe<Scalars["String"]["output"]>
@@ -611,6 +616,7 @@ export type Game_Order_By = {
   developer?: InputMaybe<Order_By>
   genre?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
+  image?: InputMaybe<Order_By>
   platform?: InputMaybe<Order_By>
   publisher?: InputMaybe<Order_By>
   releaseDate?: InputMaybe<Order_By>
@@ -635,6 +641,8 @@ export type Game_Select_Column =
   /** column name */
   | "id"
   /** column name */
+  | "image"
+  /** column name */
   | "platform"
   /** column name */
   | "publisher"
@@ -650,7 +658,8 @@ export type Game_Set_Input = {
   developer?: InputMaybe<Scalars["String"]["input"]>
   genre?: InputMaybe<Scalars["String"]["input"]>
   id?: InputMaybe<Scalars["Int"]["input"]>
-  platform?: InputMaybe<Scalars["String"]["input"]>
+  image?: InputMaybe<Scalars["String"]["input"]>
+  platform?: InputMaybe<Array<Scalars["String"]["input"]>>
   publisher?: InputMaybe<Scalars["String"]["input"]>
   releaseDate?: InputMaybe<Scalars["timestamp"]["input"]>
   title?: InputMaybe<Scalars["String"]["input"]>
@@ -689,7 +698,8 @@ export type Game_Stream_Cursor_Value_Input = {
   developer?: InputMaybe<Scalars["String"]["input"]>
   genre?: InputMaybe<Scalars["String"]["input"]>
   id?: InputMaybe<Scalars["Int"]["input"]>
-  platform?: InputMaybe<Scalars["String"]["input"]>
+  image?: InputMaybe<Scalars["String"]["input"]>
+  platform?: InputMaybe<Array<Scalars["String"]["input"]>>
   publisher?: InputMaybe<Scalars["String"]["input"]>
   releaseDate?: InputMaybe<Scalars["timestamp"]["input"]>
   title?: InputMaybe<Scalars["String"]["input"]>
@@ -713,6 +723,8 @@ export type Game_Update_Column =
   | "genre"
   /** column name */
   | "id"
+  /** column name */
+  | "image"
   /** column name */
   | "platform"
   /** column name */
@@ -1406,6 +1418,23 @@ export type Role_Comparison_Exp = {
 }
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
+export type String_Array_Comparison_Exp = {
+  /** is the array contained in the given array value */
+  _contained_in?: InputMaybe<Array<Scalars["String"]["input"]>>
+  /** does the array contain the given value */
+  _contains?: InputMaybe<Array<Scalars["String"]["input"]>>
+  _eq?: InputMaybe<Array<Scalars["String"]["input"]>>
+  _gt?: InputMaybe<Array<Scalars["String"]["input"]>>
+  _gte?: InputMaybe<Array<Scalars["String"]["input"]>>
+  _in?: InputMaybe<Array<Array<Scalars["String"]["input"]>>>
+  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>
+  _lt?: InputMaybe<Array<Scalars["String"]["input"]>>
+  _lte?: InputMaybe<Array<Scalars["String"]["input"]>>
+  _neq?: InputMaybe<Array<Scalars["String"]["input"]>>
+  _nin?: InputMaybe<Array<Array<Scalars["String"]["input"]>>>
+}
+
+/** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
   _eq?: InputMaybe<Scalars["String"]["input"]>
   _gt?: InputMaybe<Scalars["String"]["input"]>
@@ -1457,7 +1486,6 @@ export type User = {
   password?: Maybe<Scalars["String"]["output"]>
   role?: Maybe<Scalars["Role"]["output"]>
   updatedAt: Scalars["timestamp"]["output"]
-  username: Scalars["String"]["output"]
 }
 
 /** columns and relationships of "User" */
@@ -1533,7 +1561,6 @@ export type User_Bool_Exp = {
   password?: InputMaybe<String_Comparison_Exp>
   role?: InputMaybe<Role_Comparison_Exp>
   updatedAt?: InputMaybe<Timestamp_Comparison_Exp>
-  username?: InputMaybe<String_Comparison_Exp>
 }
 
 /** unique or primary key constraints on table "User" */
@@ -1542,8 +1569,6 @@ export type User_Constraint =
   | "User_email_key"
   /** unique or primary key constraint on columns "id" */
   | "User_pkey"
-  /** unique or primary key constraint on columns "username" */
-  | "User_username_key"
 
 /** input type for inserting data into table "User" */
 export type User_Insert_Input = {
@@ -1558,7 +1583,6 @@ export type User_Insert_Input = {
   password?: InputMaybe<Scalars["String"]["input"]>
   role?: InputMaybe<Scalars["Role"]["input"]>
   updatedAt?: InputMaybe<Scalars["timestamp"]["input"]>
-  username?: InputMaybe<Scalars["String"]["input"]>
 }
 
 /** aggregate max on columns */
@@ -1572,7 +1596,6 @@ export type User_Max_Fields = {
   password?: Maybe<Scalars["String"]["output"]>
   role?: Maybe<Scalars["Role"]["output"]>
   updatedAt?: Maybe<Scalars["timestamp"]["output"]>
-  username?: Maybe<Scalars["String"]["output"]>
 }
 
 /** aggregate min on columns */
@@ -1586,7 +1609,6 @@ export type User_Min_Fields = {
   password?: Maybe<Scalars["String"]["output"]>
   role?: Maybe<Scalars["Role"]["output"]>
   updatedAt?: Maybe<Scalars["timestamp"]["output"]>
-  username?: Maybe<Scalars["String"]["output"]>
 }
 
 /** response of any mutation on the table "User" */
@@ -1624,7 +1646,6 @@ export type User_Order_By = {
   password?: InputMaybe<Order_By>
   role?: InputMaybe<Order_By>
   updatedAt?: InputMaybe<Order_By>
-  username?: InputMaybe<Order_By>
 }
 
 /** primary key columns input for table: User */
@@ -1652,8 +1673,6 @@ export type User_Select_Column =
   | "role"
   /** column name */
   | "updatedAt"
-  /** column name */
-  | "username"
 
 /** input type for updating data in table "User" */
 export type User_Set_Input = {
@@ -1666,7 +1685,6 @@ export type User_Set_Input = {
   password?: InputMaybe<Scalars["String"]["input"]>
   role?: InputMaybe<Scalars["Role"]["input"]>
   updatedAt?: InputMaybe<Scalars["timestamp"]["input"]>
-  username?: InputMaybe<Scalars["String"]["input"]>
 }
 
 /** Streaming cursor of the table "User" */
@@ -1688,7 +1706,6 @@ export type User_Stream_Cursor_Value_Input = {
   password?: InputMaybe<Scalars["String"]["input"]>
   role?: InputMaybe<Scalars["Role"]["input"]>
   updatedAt?: InputMaybe<Scalars["timestamp"]["input"]>
-  username?: InputMaybe<Scalars["String"]["input"]>
 }
 
 /** update columns of table "User" */
@@ -1711,8 +1728,6 @@ export type User_Update_Column =
   | "role"
   /** column name */
   | "updatedAt"
-  /** column name */
-  | "username"
 
 export type User_Updates = {
   /** sets the columns of the filtered rows to the given values */
@@ -2630,14 +2645,8 @@ export type GetAllGamesQuery = {
     developer?: string | null
     publisher?: string | null
     genre?: string | null
-    platform?: string | null
+    platform: Array<string>
     averageRating?: any | null
-    Reviews: Array<{
-      id: number
-      rating: any
-      reviewText?: string | null
-      reviewDate: any
-    }>
   }>
 }
 
@@ -2654,14 +2663,10 @@ export type GetGameQuery = {
     developer?: string | null
     publisher?: string | null
     genre?: string | null
-    platform?: string | null
+    platform: Array<string>
+    image?: string | null
     averageRating?: any | null
-    Reviews: Array<{
-      id: number
-      rating: any
-      reviewText?: string | null
-      reviewDate: any
-    }>
+    Reviews: Array<{ id: number }>
   } | null
 }
 
@@ -2676,9 +2681,10 @@ export type CreateGameMutation = {
     description?: string | null
     releaseDate?: any | null
     developer?: string | null
+    image?: string | null
     publisher?: string | null
     genre?: string | null
-    platform?: string | null
+    platform: Array<string>
     averageRating?: any | null
   } | null
 }
@@ -2696,8 +2702,9 @@ export type UpdateGameMutation = {
     releaseDate?: any | null
     developer?: string | null
     publisher?: string | null
+    image?: string | null
     genre?: string | null
-    platform?: string | null
+    platform: Array<string>
     averageRating?: any | null
   } | null
 }
@@ -2720,7 +2727,7 @@ export type CreateReviewMutation = {
     rating: any
     reviewText?: string | null
     reviewDate: any
-    User: { id: string; username: string }
+    User: { id: string; name?: string | null; image?: string | null }
     Game: { id: number; title: string }
   } | null
 }
@@ -2736,7 +2743,7 @@ export type UpdateReviewMutation = {
     rating: any
     reviewText?: string | null
     reviewDate: any
-    User: { id: string; username: string }
+    User: { id: string; name?: string | null; image?: string | null }
     Game: { id: number; title: string }
   } | null
 }
@@ -2763,7 +2770,7 @@ export type GetAllReviewsByUserQuery = {
     rating: any
     reviewText?: string | null
     reviewDate: any
-    User: { id: string; username: string }
+    User: { id: string; name?: string | null }
     Game: { id: number; title: string }
   }>
 }
@@ -2778,7 +2785,7 @@ export type GetAllReviewsForGameQuery = {
     rating: any
     reviewText?: string | null
     reviewDate: any
-    User: { id: string; username: string }
+    User: { id: string; name?: string | null; image?: string | null }
     Game: { id: number; title: string }
   }>
 }
@@ -2852,28 +2859,6 @@ export const GetAllGamesDocument = {
                   kind: "Field",
                   name: { kind: "Name", value: "averageRating" },
                 },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "Reviews" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "rating" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "reviewText" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "reviewDate" },
-                      },
-                    ],
-                  },
-                },
               ],
             },
           },
@@ -2929,6 +2914,7 @@ export const GetGameDocument = {
                 { kind: "Field", name: { kind: "Name", value: "publisher" } },
                 { kind: "Field", name: { kind: "Name", value: "genre" } },
                 { kind: "Field", name: { kind: "Name", value: "platform" } },
+                { kind: "Field", name: { kind: "Name", value: "image" } },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "averageRating" },
@@ -2940,18 +2926,6 @@ export const GetGameDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "id" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "rating" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "reviewText" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "reviewDate" },
-                      },
                     ],
                   },
                 },
@@ -3010,6 +2984,7 @@ export const CreateGameDocument = {
                 { kind: "Field", name: { kind: "Name", value: "description" } },
                 { kind: "Field", name: { kind: "Name", value: "releaseDate" } },
                 { kind: "Field", name: { kind: "Name", value: "developer" } },
+                { kind: "Field", name: { kind: "Name", value: "image" } },
                 { kind: "Field", name: { kind: "Name", value: "publisher" } },
                 { kind: "Field", name: { kind: "Name", value: "genre" } },
                 { kind: "Field", name: { kind: "Name", value: "platform" } },
@@ -3095,6 +3070,7 @@ export const UpdateGameDocument = {
                 { kind: "Field", name: { kind: "Name", value: "releaseDate" } },
                 { kind: "Field", name: { kind: "Name", value: "developer" } },
                 { kind: "Field", name: { kind: "Name", value: "publisher" } },
+                { kind: "Field", name: { kind: "Name", value: "image" } },
                 { kind: "Field", name: { kind: "Name", value: "genre" } },
                 { kind: "Field", name: { kind: "Name", value: "platform" } },
                 {
@@ -3211,10 +3187,8 @@ export const CreateReviewDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "id" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "username" },
-                      },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "image" } },
                     ],
                   },
                 },
@@ -3315,10 +3289,8 @@ export const UpdateReviewDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "id" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "username" },
-                      },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "image" } },
                     ],
                   },
                 },
@@ -3468,10 +3440,7 @@ export const GetAllReviewsByUserDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "id" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "username" },
-                      },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
                     ],
                   },
                 },
@@ -3565,10 +3534,8 @@ export const GetAllReviewsForGameDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "id" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "username" },
-                      },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "image" } },
                     ],
                   },
                 },

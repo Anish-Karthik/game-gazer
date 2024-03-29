@@ -6,7 +6,8 @@ mutation CreateReview($input: Review_insert_input!) {
     reviewDate
     User {
       id
-      username
+      name
+      image
     }
     Game {
       id
@@ -22,7 +23,8 @@ mutation UpdateReview($reviewId: Review_pk_columns_input!, $input: Review_set_in
     reviewDate
     User {
       id
-      username
+      name
+      image
     }
     Game {
       id
@@ -46,7 +48,7 @@ query GetAllReviewsByUser($userId: String!) {
     reviewDate
     User {
       id
-      username
+      name
     }
     Game {
       id
@@ -63,7 +65,8 @@ query GetAllReviewsForGame($gameId: Int!) {
     reviewDate
     User {
       id
-      username
+      name
+      image
     }
     Game {
       id

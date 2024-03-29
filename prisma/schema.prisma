@@ -18,10 +18,10 @@ enum Role {
 
 // The User model is used by the NextAuth.js authentication library
 model User {
-  id       String  @id @default(uuid())
-  email    String? @unique
-  name     String?
-  role     Role?   @default(USER)
+  id    String  @id @default(uuid())
+  email String? @unique
+  name  String?
+  role  Role?   @default(USER)
 
   emailVerified DateTime?
   image         String?
@@ -42,7 +42,8 @@ model Game {
   developer     String?
   publisher     String?
   genre         String?
-  platform      String?
+  platform      String[]
+  image         String?
   averageRating Float?
 
   // Define the relationship to reviews

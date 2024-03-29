@@ -18,7 +18,7 @@ import { LogoutButton } from "../auth/logout-button"
 const routes = [
   {
     name: "Games",
-    path: "/",
+    path: "/games",
   },
   {
     name: "My Reviews",

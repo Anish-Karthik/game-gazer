@@ -6,6 +6,7 @@ import "./globals.css"
 import { auth } from "@/auth"
 import ApolloClientProvider from "@/providers/apollo-client-provider"
 import ReactQueryProvider from "@/providers/react-query-provider"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { SessionProvider } from "next-auth/react"
 
 import { appName } from "@/lib/constants"
@@ -37,6 +38,7 @@ export default async function RootLayout({
             <TRPCProvider>
               <body className={inter.className}>
                 <ToastProvider />
+                <ReactQueryDevtools />
                 <div className="mx-auto max-w-5xl">
                   <div className="flex flex-col gap-8">
                     <NavBar />
