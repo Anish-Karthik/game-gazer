@@ -2770,7 +2770,7 @@ export type GetAllReviewsByUserQuery = {
     rating: any
     reviewText?: string | null
     reviewDate: any
-    User: { id: string; name?: string | null }
+    User: { image?: string | null; id: string; name?: string | null }
     Game: { id: number; title: string }
   }>
 }
@@ -3439,6 +3439,7 @@ export const GetAllReviewsByUserDocument = {
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
+                      { kind: "Field", name: { kind: "Name", value: "image" } },
                       { kind: "Field", name: { kind: "Name", value: "id" } },
                       { kind: "Field", name: { kind: "Name", value: "name" } },
                     ],

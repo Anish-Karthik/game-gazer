@@ -1,16 +1,11 @@
-import { redirect, useParams, useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 
-import {
-  useCreateReviewMutation,
-  useGetGameQuery,
-} from "@/lib/graphql/generated/types-and-hooks"
+import AddReview from "@/components/shared/AddReview"
 
 import "@/hooks/use-current-user"
 import { currentUser } from "@/lib/auth"
 import { GetGameDocument } from "@/lib/gql/graphql"
 import { gqlClient } from "@/lib/service/client"
-import ReviewCard from "@/components/cards/review-card"
-import AddReview from "@/components/shared/AddReview"
 
 // import AddReview from "@/components/AddReview"
 import GameCard from "./_components/detailed-game-card"

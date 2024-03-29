@@ -39,12 +39,7 @@ export default async function RootLayout({
               <body className={inter.className}>
                 <ToastProvider />
                 <ReactQueryDevtools />
-                <div className="mx-auto max-w-5xl">
-                  <div className="flex flex-col gap-8">
-                    <NavBar />
-                    <div className="h-full w-full pt-[4.5rem]">{children}</div>
-                  </div>
-                </div>
+                {children}
               </body>
             </TRPCProvider>
           </ApolloClientProvider>

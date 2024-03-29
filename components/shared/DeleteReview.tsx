@@ -5,6 +5,7 @@ import { Trash2Icon } from "lucide-react"
 
 import { DeleteReviewDocument, Review } from "@/lib/gql/graphql"
 import { gqlClient } from "@/lib/service/client"
+import { useCurrentUser } from "@/hooks/use-current-user"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -24,6 +25,7 @@ const DeleteReview = ({
   reviewId: number
   gameId: number
 }) => {
+  const user = useCurrentUser()
   const queryClient = useQueryClient()
   const deleteReview = useMutation({
     mutationFn: async ({ reviewId }: { reviewId: number }) =>
@@ -34,18 +36,20 @@ const DeleteReview = ({
       console.log(error)
     },
     onSuccess(data, variables, context) {
-      queryClient.setQueryData(
-        [`getGameReviews-${gameId}`, gameId],
-        (oldData: { Review: Review[] }) => {
-          const newData = data!.delete_Review_by_pk!
-          const newReviews = oldData!.Review.filter(
-            (review) => review.id !== newData.id
-          )
-          return {
-            ...oldData,
-            Review: newReviews,
-          }
+      const deleteData = (oldData: { Review: Review[] }) => {
+        const newData = data!.delete_Review_by_pk!
+        const newReviews = oldData!.Review.filter(
+          (review) => review.id !== newData.id
+        )
+        return {
+          ...oldData,
+          Review: newReviews,
         }
+      }
+      queryClient.setQueryData([`getGameReviews-${gameId}`, gameId], deleteData)
+      queryClient.setQueryData(
+        [`getReviewsByUser-${user!.id}`, user!.id],
+        deleteData
       )
     },
   })

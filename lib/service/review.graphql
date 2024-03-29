@@ -15,7 +15,10 @@ mutation CreateReview($input: Review_insert_input!) {
     }
   }
 }
-mutation UpdateReview($reviewId: Review_pk_columns_input!, $input: Review_set_input!) {
+mutation UpdateReview(
+  $reviewId: Review_pk_columns_input!
+  $input: Review_set_input!
+) {
   update_Review_by_pk(pk_columns: $reviewId, _set: $input) {
     id
     rating
@@ -41,12 +44,13 @@ mutation DeleteReview($reviewId: Int!) {
 }
 
 query GetAllReviewsByUser($userId: String!) {
-  Review(where: {userId: {_eq: $userId}}) {
+  Review(where: { userId: { _eq: $userId } }) {
     id
     rating
     reviewText
     reviewDate
     User {
+      image
       id
       name
     }
@@ -58,7 +62,7 @@ query GetAllReviewsByUser($userId: String!) {
 }
 
 query GetAllReviewsForGame($gameId: Int!) {
-  Review(where: {gameId: {_eq: $gameId}}) {
+  Review(where: { gameId: { _eq: $gameId } }) {
     id
     rating
     reviewText

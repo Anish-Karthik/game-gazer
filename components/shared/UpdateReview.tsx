@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Edit2Icon } from "lucide-react"
@@ -13,6 +14,7 @@ import {
 } from "@/lib/gql/graphql"
 import { useUpdateReviewMutation } from "@/lib/graphql/generated/types-and-hooks"
 import { gqlClient } from "@/lib/service/client"
+import { useCurrentUser } from "@/hooks/use-current-user"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -59,6 +61,7 @@ const UpdateReview = ({
   content: string
   rating: number
 }) => {
+  const user = useCurrentUser()
   const queryClient = useQueryClient()
   const updateReview = useMutation({
     mutationFn: async (data: {
@@ -76,21 +79,23 @@ const UpdateReview = ({
       console.log(error)
     },
     onSuccess(data, variables, context) {
-      queryClient.setQueryData(
-        [`getGameReviews-${gameId}`, gameId],
-        (oldData: { Review: Review[] }) => {
-          console.log("oldData", oldData)
-          const newData = data.update_Review_by_pk!
-          return {
-            ...oldData,
-            Review: oldData.Review.map((review: Review) => {
-              if (review.id === newData.id) {
-                return newData
-              }
-              return review
-            }),
-          }
+      const updateData = (oldData: { Review: Review[] }) => {
+        console.log("oldData", oldData)
+        const newData = data.update_Review_by_pk!
+        return {
+          ...oldData,
+          Review: oldData.Review.map((review: Review) => {
+            if (review.id === newData.id) {
+              return newData
+            }
+            return review
+          }),
         }
+      }
+      queryClient.setQueryData([`getGameReviews-${gameId}`, gameId], updateData)
+      queryClient.setQueryData(
+        [`getReviewsByUser-${user!.id}`, user!.id],
+        updateData
       )
     },
   })
