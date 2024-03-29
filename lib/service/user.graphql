@@ -1,0 +1,30 @@
+query GetUser($userId: String!) {
+  User_by_pk(id: $userId) {
+    id
+    email
+    name
+    emailVerified
+    image
+    role
+    Reviews {
+      id
+      rating
+      reviewText
+      reviewDate
+    }
+  }
+}
+mutation UpdateUser($userId: User_pk_columns_input!, $input: User_set_input!) {
+  update_User_by_pk(pk_columns: $userId, _set: $input) {
+    id
+    email
+    name
+    role
+  }
+}
+
+query GetUserRole($userId: String!) {
+  User_by_pk(id: $userId) {
+    role
+  }
+}

@@ -1,0 +1,73 @@
+query GetAllGames {
+  Game {
+    id
+    title
+    description
+    releaseDate
+    developer
+    publisher
+    genre
+    platform
+    averageRating
+    Reviews {
+      id
+      rating
+      reviewText
+      reviewDate
+    }
+  }
+}
+
+query GetGame($gameId: Int!) {
+  Game_by_pk(id: $gameId) {
+    id
+    title
+    description
+    releaseDate
+    developer
+    publisher
+    genre
+    platform
+    averageRating
+    Reviews {
+      id
+      rating
+      reviewText
+      reviewDate
+    }
+  }
+}
+
+mutation CreateGame($input: Game_insert_input!) {
+  insert_Game_one(object: $input) {
+    id
+    title
+    description
+    releaseDate
+    developer
+    publisher
+    genre
+    platform
+    averageRating
+  }
+}
+
+mutation UpdateGame($gameId: Game_pk_columns_input!, $input: Game_set_input!) {
+  update_Game_by_pk(pk_columns: $gameId, _set: $input) {
+    id
+    title
+    description
+    releaseDate
+    developer
+    publisher
+    genre
+    platform
+    averageRating
+  }
+}
+mutation DeleteGame($gameId: Int!) {
+  delete_Game_by_pk(id: $gameId) {
+    id
+    title
+  }
+}
