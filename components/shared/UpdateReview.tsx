@@ -1,18 +1,12 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Edit2Icon } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-import {
-  GetAllReviewsForGameDocument,
-  Review,
-  UpdateReviewDocument,
-} from "@/lib/gql/graphql"
-import { useUpdateReviewMutation } from "@/lib/graphql/generated/types-and-hooks"
+import { Review, UpdateReviewDocument } from "@/lib/gql/graphql"
 import { gqlClient } from "@/lib/service/client"
 import { useCurrentUser } from "@/hooks/use-current-user"
 import { Button } from "@/components/ui/button"

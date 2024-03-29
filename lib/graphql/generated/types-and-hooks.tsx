@@ -2647,7 +2647,7 @@ export type GetAllGamesQuery = {
     publisher?: string | null
     genre?: string | null
     platform: Array<string>
-    averageRating?: any | null
+    Reviews: Array<{ id: number; rating: any }>
   }>
 }
 
@@ -2666,8 +2666,7 @@ export type GetGameQuery = {
     genre?: string | null
     platform: Array<string>
     image?: string | null
-    averageRating?: any | null
-    Reviews: Array<{ id: number }>
+    Reviews: Array<{ id: number; rating: any }>
   } | null
 }
 
@@ -2686,7 +2685,7 @@ export type CreateGameMutation = {
     publisher?: string | null
     genre?: string | null
     platform: Array<string>
-    averageRating?: any | null
+    Reviews: Array<{ id: number; rating: any }>
   } | null
 }
 
@@ -2706,7 +2705,6 @@ export type UpdateGameMutation = {
     image?: string | null
     genre?: string | null
     platform: Array<string>
-    averageRating?: any | null
   } | null
 }
 
@@ -2843,7 +2841,10 @@ export const GetAllGamesDocument = gql`
       publisher
       genre
       platform
-      averageRating
+      Reviews {
+        id
+        rating
+      }
     }
   }
 `
@@ -2922,9 +2923,9 @@ export const GetGameDocument = gql`
       genre
       platform
       image
-      averageRating
       Reviews {
         id
+        rating
       }
     }
   }
@@ -2998,7 +2999,10 @@ export const CreateGameDocument = gql`
       publisher
       genre
       platform
-      averageRating
+      Reviews {
+        id
+        rating
+      }
     }
   }
 `
@@ -3059,7 +3063,6 @@ export const UpdateGameDocument = gql`
       image
       genre
       platform
-      averageRating
     }
   }
 `

@@ -7,11 +7,8 @@ import { currentUser } from "@/lib/auth"
 import { GetGameDocument } from "@/lib/gql/graphql"
 import { gqlClient } from "@/lib/service/client"
 
-// import AddReview from "@/components/AddReview"
 import GameCard from "./_components/detailed-game-card"
 import GetAllReviews from "./_components/get-all-reviews"
-
-// import ReviewCard from "@/components/ReviewCard"
 
 const Game = async ({ params }: { params: { id: Number } }) => {
   const user = await currentUser()
@@ -19,15 +16,10 @@ const Game = async ({ params }: { params: { id: Number } }) => {
   const data = await gqlClient.request(GetGameDocument, {
     gameId,
   })
-  // const [addReview] = useCreateReviewMutation({
-  //   refetchQueries: ["getGameReviews"],
-  // })
+
   if (!user) {
-    // navigate('/')
     redirect("/auth/login")
   }
-  // if (loading) return <p>Loading...</p>
-  // if (error) return <p>Error : {error?.message}</p>
   if (!data || !data.Game_by_pk || !data.Game_by_pk.Reviews) {
     return <p>Game not found</p>
   }
@@ -42,10 +34,10 @@ const Game = async ({ params }: { params: { id: Number } }) => {
         platform={data.Game_by_pk.platform}
         company={data.Game_by_pk.developer!}
         review={
-          (data.Game_by_pk.Reviews?.reduce(
-            (acc: number, review: any) => acc + review.rating,
+          (data.Game_by_pk.Reviews.reduce(
+            (acc, review) => acc + review.rating,
             0
-          ) || 0) / (data.Game_by_pk.Reviews?.length || 1)
+          ) || 0) / (data.Game_by_pk.Reviews.length || 1)
         }
         totalReviews={data.Game_by_pk!.Reviews?.length}
         view="horizontal"

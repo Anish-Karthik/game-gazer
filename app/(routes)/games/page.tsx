@@ -19,7 +19,7 @@ const Page = () => {
             <Skeleton key={ind} className="h-72 w-full rounded-md" />
           ))}
       {games?.Game.map((game) => (
-        <GameCard key={game.id} game={game as Game} />
+        <GameCard key={game.id} game={game as any} />
       ))}
     </main>
   )

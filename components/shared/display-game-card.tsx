@@ -16,7 +16,10 @@ const DisplayGameCard = ({ gameId }: { gameId: number }) => {
   return (
     <GameCard
       totalReviews={game.Reviews.length!}
-      review={game.averageRating}
+      review={
+        game.Reviews.reduce((acc, review) => acc + review.rating, 0) /
+        game.Reviews.length!
+      }
       key={game.id}
       name={game.title}
       description={game.description!}

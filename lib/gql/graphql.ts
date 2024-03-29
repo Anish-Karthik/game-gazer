@@ -2646,7 +2646,7 @@ export type GetAllGamesQuery = {
     publisher?: string | null
     genre?: string | null
     platform: Array<string>
-    averageRating?: any | null
+    Reviews: Array<{ id: number; rating: any }>
   }>
 }
 
@@ -2665,8 +2665,7 @@ export type GetGameQuery = {
     genre?: string | null
     platform: Array<string>
     image?: string | null
-    averageRating?: any | null
-    Reviews: Array<{ id: number }>
+    Reviews: Array<{ id: number; rating: any }>
   } | null
 }
 
@@ -2685,7 +2684,7 @@ export type CreateGameMutation = {
     publisher?: string | null
     genre?: string | null
     platform: Array<string>
-    averageRating?: any | null
+    Reviews: Array<{ id: number; rating: any }>
   } | null
 }
 
@@ -2705,7 +2704,6 @@ export type UpdateGameMutation = {
     image?: string | null
     genre?: string | null
     platform: Array<string>
-    averageRating?: any | null
   } | null
 }
 
@@ -2857,7 +2855,17 @@ export const GetAllGamesDocument = {
                 { kind: "Field", name: { kind: "Name", value: "platform" } },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "averageRating" },
+                  name: { kind: "Name", value: "Reviews" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "rating" },
+                      },
+                    ],
+                  },
                 },
               ],
             },
@@ -2917,15 +2925,15 @@ export const GetGameDocument = {
                 { kind: "Field", name: { kind: "Name", value: "image" } },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "averageRating" },
-                },
-                {
-                  kind: "Field",
                   name: { kind: "Name", value: "Reviews" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "rating" },
+                      },
                     ],
                   },
                 },
@@ -2990,7 +2998,17 @@ export const CreateGameDocument = {
                 { kind: "Field", name: { kind: "Name", value: "platform" } },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "averageRating" },
+                  name: { kind: "Name", value: "Reviews" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "rating" },
+                      },
+                    ],
+                  },
                 },
               ],
             },
@@ -3073,10 +3091,6 @@ export const UpdateGameDocument = {
                 { kind: "Field", name: { kind: "Name", value: "image" } },
                 { kind: "Field", name: { kind: "Name", value: "genre" } },
                 { kind: "Field", name: { kind: "Name", value: "platform" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "averageRating" },
-                },
               ],
             },
           },

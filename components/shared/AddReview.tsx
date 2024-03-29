@@ -5,15 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-import {
-  CreateReviewDocument,
-  GetAllReviewsForGameDocument,
-  Review,
-} from "@/lib/gql/graphql"
-import {
-  CreateReviewMutationFn,
-  useCreateReviewMutation,
-} from "@/lib/graphql/generated/types-and-hooks"
+import { CreateReviewDocument, Review } from "@/lib/gql/graphql"
 import { gqlClient } from "@/lib/service/client"
 import { Button } from "@/components/ui/button"
 import {

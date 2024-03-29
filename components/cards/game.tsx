@@ -1,15 +1,11 @@
 "use client"
 
-import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Game, Review } from "@prisma/client"
 import { format } from "date-fns"
 
-import { useGetAllGamesQuery } from "@/lib/graphql/generated/types-and-hooks"
-import { gqlClient } from "@/lib/service/client"
-
-const GameCard = ({ game }: { game: Game }) => {
+const GameCard = ({ game }: { game: Game & { Reviews: Review[] } }) => {
   return (
     <Link
       href={`/games/${game.id}`}
@@ -38,12 +34,11 @@ const GameCard = ({ game }: { game: Game }) => {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <p className="text-sm font-bold">
-              {/* @ts-ignore */}
-              {game.Reviews?.length} reviews
-            </p>
+            <p className="text-sm font-bold">{game.Reviews?.length} reviews</p>
             <p className="ml-2 text-sm font-bold">
-              {game.averageRating || 0}⭐
+              {(game.Reviews.reduce((acc, review) => acc + review.rating, 0) ||
+                0) / (game.Reviews.length || 1) || 0}
+              ⭐
             </p>
           </div>
         </div>
