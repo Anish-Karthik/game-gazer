@@ -3,10 +3,12 @@
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import * as z from "zod"
 
 import { GetAllGamesDocument } from "@/lib/gql/graphql"
 import { useCreateGameMutation } from "@/lib/graphql/generated/types-and-hooks"
+import { UploadButton, UploadDropzone } from "@/lib/utils/uploadthing"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -58,12 +60,10 @@ const formSchema = z.object({
   }),
   image: z
     .string()
-    .min(2, {
-      message: "Image must not be empty.",
-    })
     .url({
       message: "Image must be a valid URL.",
-    }),
+    })
+    .nullable(),
   genre: z.string().min(1, {
     message: "Genre must not be empty.",
   }),
@@ -139,26 +139,73 @@ const AddGame = () => {
   if (error) return <p>Error : {error?.message}</p>
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Game of Thrones.." {...field} />
-              </FormControl>
-              <FormDescription>This is the name of your game.</FormDescription>
-              <FormMessage
-                itemType="error"
-                hidden={!form.getFieldState("name").invalid}
-              >
-                Invalid
-              </FormMessage>
-            </FormItem>
-          )}
-        />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        <div className="grid gap-2 max-md:grid-cols-2 max-sm:grid-cols-1 md:grid-cols-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Game of Thrones.." {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is the name of your game.
+                </FormDescription>
+                <FormMessage
+                  itemType="error"
+                  hidden={!form.getFieldState("name").invalid}
+                >
+                  Invalid
+                </FormMessage>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="genre"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Genre</FormLabel>
+                <FormControl>
+                  <Input placeholder="Action" {...field} />
+                </FormControl>
+                <FormDescription>This is the Game genre</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="company"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Company</FormLabel>
+                <FormControl>
+                  <Input placeholder="Ubisoft" {...field} />
+                </FormControl>
+                <FormDescription>This is the Game company</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="releaseDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Release Date</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} />
+                </FormControl>
+                <FormDescription>This is the Game release date</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormField
           control={form.control}
           name="description"
@@ -171,7 +218,6 @@ const AddGame = () => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>This is the Game description</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -183,51 +229,22 @@ const AddGame = () => {
             <FormItem>
               <FormLabel>Image</FormLabel>
               <FormControl>
-                <Input placeholder="https://..." {...field} />
+                <UploadDropzone
+                  className="max-h-56"
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    // Do something with the response
+                    console.log("Files: ", res)
+                    field.onChange(res[0].url)
+                    toast.success("Upload Completed")
+                  }}
+                  onUploadError={(error: Error) => {
+                    // Do something with the error.
+                    alert(`ERROR! ${error.message}`)
+                  }}
+                />
               </FormControl>
-              <FormDescription>This is the Game image</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="genre"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Genre</FormLabel>
-              <FormControl>
-                <Input placeholder="Action" {...field} />
-              </FormControl>
-              <FormDescription>This is the Game genre</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="company"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Company</FormLabel>
-              <FormControl>
-                <Input placeholder="Ubisoft" {...field} />
-              </FormControl>
-              <FormDescription>This is the Game company</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="releaseDate"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Release Date</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
-              </FormControl>
-              <FormDescription>This is the Game release date</FormDescription>
+              <FormDescription>This is the image of your game.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -243,39 +260,41 @@ const AddGame = () => {
                   Select the platforms the game is available on.
                 </FormDescription>
               </div>
-              {platforms.map((item) => (
-                <FormField
-                  key={item.id}
-                  control={form.control}
-                  name="platform"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={item.id}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== item.id
+              <div className="flex flex-col gap-2 lg:flex-row">
+                {platforms.map((item) => (
+                  <FormField
+                    key={item.id}
+                    control={form.control}
+                    name="platform"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={item.id}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(item.id)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, item.id])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== item.id
+                                      )
                                     )
-                                  )
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          {item.label}
-                        </FormLabel>
-                      </FormItem>
-                    )
-                  }}
-                />
-              ))}
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {item.label}
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    }}
+                  />
+                ))}
+              </div>
               <FormMessage />
             </FormItem>
           )}

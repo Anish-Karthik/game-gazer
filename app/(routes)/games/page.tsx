@@ -11,7 +11,7 @@ const Page = () => {
   const { data: games, loading, error } = useGetAllGamesQuery()
 
   return (
-    <main className="grid h-full w-full grid-cols-3 gap-2 to-[#15162c] text-black">
+    <main className="grid h-full w-full grid-cols-1 gap-2 to-[#15162c] text-black sm:grid-cols-2 md:grid-cols-3">
       {loading &&
         new Array(6)
           .fill(null)

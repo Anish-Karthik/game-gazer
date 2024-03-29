@@ -7,6 +7,7 @@ query GetAllGames {
     developer
     publisher
     genre
+    image
     platform
     Reviews {
       id

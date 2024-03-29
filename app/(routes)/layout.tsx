@@ -4,7 +4,7 @@ import NavBar from "@/components/shared/navbar"
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="w-ful h-full">
+    <main className="h-full w-full max-lg:px-2 max-lg:pb-4">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col gap-8">
           <NavBar />

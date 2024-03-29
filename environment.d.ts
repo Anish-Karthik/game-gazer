@@ -13,5 +13,7 @@ namespace NodeJS {
     MAIL_USER: string
     MAIL_PASS: string
     NEXT_PUBLIC_APP_URL: string
+    UPLOADTHING_SECRET: string
+    UPLOADTHING_APP_ID: string
   }
 }
